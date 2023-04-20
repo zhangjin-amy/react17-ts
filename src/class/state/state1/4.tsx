@@ -45,7 +45,13 @@ class State4 extends React.Component<Readonly<any>, State> {
   }
 
   /**
-   * 在合成事件，setTimeout, setInterval, addEventListener 中能够以同步的方式打印出最新值
+   * 在原生事件，setTimeout, setInterval, addEventListener 中能够以同步的方式打印出最新值
+   * 
+   * 🟢🟢
+   * <div onClick={this.handleClick}></div>
+   * handleClick不是原生事件，
+   * React并不是将click事件绑定到了div的真实DOM上，而是在document处监听了所有的事件，当事件发生并且冒泡到document处的时候，React将事件内容封装并交由真正的处理函数运行。这样的方式不仅仅减少了内存的消耗，还能在组件挂载销毁时统一订阅和移除事件。
+   * 除此之外，冒泡到document上的事件也不是原生的浏览器事件，而是由react自己实现的合成事件（SyntheticEvent）。因此如果不想要是事件冒泡的话应该调用event.preventDefault()方法，而不是调用event.stopProppagation()方法。
    *
    */
 
